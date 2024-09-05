@@ -1,0 +1,158 @@
+---
+title: "Programming in R"
+author: "Jayesh Thakur"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Task 1: Basic Vector practice
+
+1.  **Creating two vectors for pre and post treatment**
+
+```{r}
+pre_treatment <- c(120, 151, 125, 126, 115, 132, 132, 129, 134, 139, 127, 122, 127, 135, 133, 128, 147, 138, 140, 132)
+
+post_treatment <- c(127, 145, 135, 122, 115, 122, 123, 126, 126, 129, 132, 146, 120, 114, 121, 120, 128, 120, 133, 115)
+```
+
+2.  **Assigning name to each observation in both vectors**
+
+```{r}
+subject_names <- paste("Subject", 1:20, sep = "_")
+
+names(pre_treatment) <- subject_names
+names(post_treatment) <- subject_names
+```
+
+3.  **Calculating the change in blood pressure before and after treatment**
+
+```{r}
+change_in_bp <- pre_treatment - post_treatment
+```
+
+4.  **Calculating average decrease in blood pressure using mean()**
+
+```{r}
+avg_change <- mean(change_in_bp)
+avg_change
+```
+
+5.  **Indices of Patients who has decreased blood pressure**
+
+```{r}
+pos_ind <- which(change_in_bp > 0)
+pos_ind
+
+names(pos_ind)
+```
+
+6.  **Creating a Subset vector to get patient with positive change i.e., decreased blood pressure**
+
+```{r}
+pos_change <- change_in_bp[change_in_bp > 0]
+pos_change
+```
+
+7.  **Calculating Average decrease in blood pressure using mean()**
+
+```{r}
+avg_pos_change <- mean(pos_change)
+avg_pos_change
+```
+
+## Task 2: Basic Data Frame practice
+
+1.  **Creating DataFrame with 4 columns**, patient, pre_bp, post_bp, and diff_bp
+
+```{r}
+bp_df <- data.frame(
+  patient = subject_names,
+  pre_bp = pre_treatment,
+  post_bp = post_treatment,
+  diff_bp = pre_treatment - post_treatment
+)
+
+bp_df
+```
+
+2.  **Creating subset where diff_bp is negative** using subset()
+
+```{r}
+negative_diff_alt <- subset(bp_df, diff_bp < 0)
+negative_diff_alt
+```
+
+3.  **Creating new column 'post_bp_lt_120'** indicating post_bp is less than 120
+
+```{r}
+bp_df$post_bp_lt_120 <- bp_df$post_bp < 120
+
+bp_df
+```
+
+4.  **Displaying DataFrame with knitr**
+
+```{r}
+knitr::kable(bp_df)
+```
+
+## Task 3: List Practice
+
+1.  **Creating placebo treatment DataFrame** along with column which indicates blood pressure less than 120
+
+```{r}
+placebo_pre_treatment <- c(138, 135, 147, 117, 152, 134, 114, 121, 131, 130)
+placebo_post_treatment <- c(105, 136, 123, 130, 134, 143, 135, 139, 120, 124)
+
+placebo_subject_names <- paste("Subject", 1:10, sep = "_")
+
+placebo_df <- data.frame(
+  patient = placebo_subject_names,
+  pre_bp = placebo_pre_treatment,
+  post_bp = placebo_post_treatment,
+  diff_bp = placebo_pre_treatment - placebo_post_treatment
+)
+
+placebo_df$post_bp_lt_120 <- placebo_df$post_bp < 120
+
+placebo_df
+```
+
+2.  **Creating list with Actual and placebo data**
+
+```{r}
+experiment_list <- list(
+  treatment = bp_df,
+  placebo = placebo_df
+)
+
+experiment_list
+```
+
+3.  **Access 1st element** i.e., treatment data using 3 methods
+
+    1.  Using \$
+
+    ```{r}
+    experiment_list$treatment
+    ```
+
+    2.  Using \[\[ : *This returns as DataFrame*
+
+    ```{r}
+    experiment_list[["treatment"]]
+    ```
+
+    3.  Using \[ : *This returns as a list*
+
+    ```{r}
+    experiment_list["treatment"]
+    ```
+
+4.  **Accessing 'pre_bp' column from placebo dataframe**
+
+```{r}
+experiment_list$placebo$pre_bp
+```
