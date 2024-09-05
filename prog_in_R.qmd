@@ -17,6 +17,9 @@ Webpage created for submission of HW2 ST-558
 pre_treatment <- c(120, 151, 125, 126, 115, 132, 132, 129, 134, 139, 127, 122, 127, 135, 133, 128, 147, 138, 140, 132)
 
 post_treatment <- c(127, 145, 135, 122, 115, 122, 123, 126, 126, 129, 132, 146, 120, 114, 121, 120, 128, 120, 133, 115)
+
+pre_treatment
+post_treatment
 ```
 
 2.  **Assigning name to each observation in both vectors**
@@ -32,6 +35,7 @@ names(post_treatment) <- subject_names
 
 ```{r}
 change_in_bp <- pre_treatment - post_treatment
+change_in_bp
 ```
 
 4.  **Calculating average decrease in blood pressure using mean()**
